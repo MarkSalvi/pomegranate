@@ -26,6 +26,7 @@ type currencySetting struct {
 type configFile struct {
 	PostLink      string `json:"postLink"`
 	CurrentLeague string `json:"CurrentLeague"`
+	Stash         string `json:"Stash"`
 }
 
 type sortedCurrency []currency

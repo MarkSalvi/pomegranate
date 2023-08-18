@@ -76,12 +76,15 @@ func createWindow() {
 		tradeSiteLink := widget.NewEntry()
 		tradeSiteLink.Text = cFile.PostLink
 		tradeSiteLinkLabel := widget.NewLabel("Post Link")
+		stashEntry := widget.NewEntry()
+		stashEntry.Text = cFile.Stash
+		stashEntryLabel := widget.NewLabel("Stash tab number")
 
 		update := widget.NewButton("Update Configs", func() {
-			updateConfigFile(league.Text, tradeSiteLink.Text)
+			updateConfigFile(tradeSiteLink.Text, league.Text, stashEntry.Text)
 		})
 
-		w.SetContent(container.NewVBox(leagueLabel, league, tradeSiteLinkLabel, tradeSiteLink, update))
+		w.SetContent(container.NewVBox(leagueLabel, league, tradeSiteLinkLabel, tradeSiteLink, stashEntryLabel, stashEntry, update))
 
 	})
 

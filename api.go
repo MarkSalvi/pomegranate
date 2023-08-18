@@ -114,7 +114,7 @@ func postData(list sortedCurrency) string {
 			//fmt.Printf("Give %v : %v\t", value.CurrencyTypeName, rX)
 			//fmt.Printf("Receive %v : %.0f\t", v.CurrencyTypeName, rY)
 			//fmt.Printf("\n")
-			output += fmt.Sprintf("[spoiler=\" ~price %.0f/%v %v\"][linkItem location=\"Stash26\" league=\"Crucible\" x=\"%v\" y=\"%v\"]", rY, rX, currencyName[v.CurrencyTypeName], x, y)
+			output += fmt.Sprintf("[spoiler=\" ~price %.0f/%v %v\"][linkItem location=\"Stash%s\" league=\"%s\" x=\"%v\" y=\"%v\"]", rY, rX, currencyName[v.CurrencyTypeName], getConfigFile().Stash, getConfigFile().CurrentLeague, x, y)
 			x++
 			output += "[/spoiler]"
 		}
@@ -145,20 +145,11 @@ func (v sortedCurrency) Less(i, j int) bool {
 	return currencyName[v[i].CurrencyTypeName] < currencyName[v[j].CurrencyTypeName]
 }
 
-func updateConfigFile(s ...string) {
+func updateConfigFile(p string, c string, s string) {
 	cFile := getConfigFile()
-
-	for k, v := range s {
-		if len(v) != 0 {
-			switch k {
-			case 1:
-				cFile.PostLink = v
-			case 0:
-				cFile.CurrentLeague = v
-			}
-		}
-	}
-
+	cFile.Stash = s
+	cFile.PostLink = p
+	cFile.CurrentLeague = c
 	b, err := json.Marshal(cFile)
 	if err != nil {
 		fmt.Println("Error marshaling json")
