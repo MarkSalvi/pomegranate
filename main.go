@@ -22,3 +22,8 @@ func main() {
 	request()
 	createWindow()
 }
+
+//todo Add Round for 1,10,20,30,40 stacks
+//todo sistemare i trade delle currency: "Aggiungere On/Off mult,gain,rounde etc per currency"
+//todo sistemare in ordine alfabetico list currency
+//todo aggiungere tutte le currency e fixare le tab

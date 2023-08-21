@@ -1,9 +1,8 @@
-module PoeNinjaCurrency
+module Pomegranate
 
 go 1.19
 
 require (
-	fyne.io/fyne v1.4.3
 	fyne.io/fyne/v2 v2.3.3
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8
 	golang.design/x/clipboard v0.7.0
@@ -11,7 +10,6 @@ require (
 
 require (
 	fyne.io/systray v1.10.1-0.20230312215936-7f71b037e260 // indirect
-	github.com/akavel/rsrc v0.10.2 // indirect
 	github.com/benoitkugler/textlayout v0.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fredbi/uri v0.1.0 // indirect

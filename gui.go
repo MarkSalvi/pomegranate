@@ -97,6 +97,9 @@ func createWindow() {
 	})
 	w.SetContent(container.NewCenter(widget.NewLabel("Select One Currency")))
 
+	r, _ := fyne.LoadResourceFromURLString("https://ih1.redbubble.net/image.1967819879.7917/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg")
+
+	w.SetIcon(r)
 	w.Resize(fyne.NewSize(1080, 720))
 	w.SetMainMenu(mainMenu)
 	w.ShowAndRun()
@@ -137,15 +140,16 @@ func currencyContent(skip string) *container.Split {
 	gainEntry.Text = fmt.Sprintf("%.2f", currencySettingMap[skip].Gain)
 	gainNameLabel := widget.NewLabel("Chaos Gain per Trade")
 
-	roundCheckBox := widget.NewCheck("Round?", func(b bool) {})
-	roundCheckBox.Checked = currencySettingMap[skip].Rounding
+	roundName := widget.NewLabel("Round")
+	roundSelect := widget.NewSelectEntry(roundMultipliers)
+	roundSelect.Text = fmt.Sprintf("%d", currencySettingMap[skip].Rounding)
 
 	applyButton := widget.NewButton("Update", func() {
-		updateCurrencySettingMap(skip, multiplierEntry.Text, gainEntry.Text, roundCheckBox.Checked)
+		updateCurrencySettingMap(skip, multiplierEntry.Text, gainEntry.Text, roundSelect.Text)
 		w.SetContent(currencyContent(skip))
 	})
 
-	trailing := container.NewVBox(multiplierNameLabel, multiplierEntry, gainNameLabel, gainEntry, roundCheckBox, applyButton)
+	trailing := container.NewVBox(multiplierNameLabel, multiplierEntry, gainNameLabel, gainEntry, roundName, roundSelect, applyButton)
 	scatola := container.NewHSplit(leading, trailing)
 
 	return scatola

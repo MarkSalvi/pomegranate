@@ -18,7 +18,7 @@ type currency struct {
 }
 
 type currencySetting struct {
-	Rounding   bool
+	Rounding   int
 	Multiplier float64
 	Gain       float64
 }
@@ -37,7 +37,7 @@ type currencyJSON struct {
 }
 
 type currencyStart struct {
-	Gianni []currencyJSON `json:"Gianni"` //sucate voglio chiamare il tag gianni :P
+	Gianni []currencyJSON `json:"Gianni"` //gianni is a cool name :P
 }
 
 // vars for slider bindings
@@ -78,6 +78,7 @@ var client http.Client
 var a = app.New()
 var w = a.NewWindow("pomegranate")
 var cJSON = getCurrencyJSON()
+var roundMultipliers = []string{"1", "10", "20", "30", "40"}
 
 var currencySettingMap = initCurrencySettingMap()
 

@@ -77,16 +77,7 @@ func rateo(x, y float64, currencyType string) (int64, float64) {
 	increment := (newRatio - ratio) * y
 	//rappresenta il ricavo in chaos
 	noX := currencySettingMap[currencyType].Gain / increment
-	if currencySettingMap[currencyType].Rounding {
-		noX = float64(round(int(noX)))
-	} else {
-		app := (int64(noX*10) % 10)
-		if app >= 5 {
-			noX = ((noX * 10) + (10 - float64(int64(noX*10)%10))) / 10
-		} else {
-			noX = ((noX * 10) - float64(int64(noX*10)%10)) / 10
-		}
-	}
+	noX = float64(round(int(noX), int(currencySettingMap[currencyType].Rounding)))
 
 	noY := noX * newRatio
 
@@ -94,7 +85,7 @@ func rateo(x, y float64, currencyType string) (int64, float64) {
 }
 
 func postData(list sortedCurrency) string {
-	y := 1
+	y := 0
 	var output = "[spoiler]"
 
 	for _, value := range list {
@@ -126,13 +117,17 @@ func postData(list sortedCurrency) string {
 
 }
 
-func round(x int) int {
-	if (x % 20) >= 10 {
-		return x - (x % 20) + 20
-	} else if (x % 20) == 0 {
+func round(x, amount int) int {
+	if amount == 1 {
 		return x
 	}
-	return x - (x % 20)
+
+	if (x % amount) >= amount/2 {
+		return x - (x % amount) + amount
+	} else if (x % amount) == 0 {
+		return x
+	}
+	return x - (x % amount)
 }
 
 func getTradingSitePostLink() string {
@@ -173,7 +168,7 @@ func getConfigFile() configFile {
 	var cFile configFile
 	err = json.Unmarshal(b, &cFile)
 	if err != nil {
-		fmt.Println("Error unmarshaling json")
+		fmt.Println("Error unmarshaling config json")
 	}
 	//fmt.Println(tradeSiteLink)
 	return cFile
@@ -187,8 +182,9 @@ func getCurrencyJSON() currencyStart {
 	var sFile currencyStart
 	err = json.Unmarshal(b, &sFile)
 	if err != nil {
-		fmt.Println("Error unmarshaling json")
+		fmt.Println("Error unmarshaling currency json")
 	}
+	fmt.Println(sFile)
 	return sFile
 
 }
@@ -219,9 +215,10 @@ func initCurrencySettingMap() map[string]currencySetting {
 	return app
 }
 
-func updateCurrencySettingMap(skip string, mult string, gain string, rounding bool) {
+func updateCurrencySettingMap(skip string, mult string, gain string, rounding string) {
 	delete(currencySettingMap, skip)
 	m, _ := strconv.ParseFloat(mult, 64)
 	g, _ := strconv.ParseFloat(gain, 64)
-	currencySettingMap[skip] = currencySetting{Rounding: rounding, Multiplier: m, Gain: g}
+	f, _ := strconv.ParseFloat(rounding, 64)
+	currencySettingMap[skip] = currencySetting{Rounding: int(f), Multiplier: m, Gain: g}
 }
